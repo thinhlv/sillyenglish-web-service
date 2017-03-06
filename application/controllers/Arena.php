@@ -23,4 +23,9 @@ class Arena extends CI_Controller{
         
         $this->db->close();
     }
+	
+	public function index()
+	{
+		echo 'this is arena service!';
+	}
 }
