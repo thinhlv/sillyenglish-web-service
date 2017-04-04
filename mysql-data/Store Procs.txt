@@ -1,0 +1,55 @@
+DELIMITER $$
+
+USE `silly_english`$$
+
+DROP PROCEDURE IF EXISTS `buy_lesson`$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `buy_lesson`(
+		IN p_user_id VARCHAR(40),
+		IN p_lesson_id INT(11)
+	    )
+BEGIN		
+	SELECT lesson.`ls_price` FROM lesson WHERE lesson.`ls_id` = p_lesson_id INTO @lesson_price;
+	SELECT COUNT(*) FROM `lesson_storage` WHERE `lesson_storage`.`user_id` = p_user_id AND `lesson_storage`.`ls_id` = p_lesson_id INTO @check_buy;
+	IF(@check_buy > 0) THEN
+		SELECT "205" AS response_code;
+	ELSE 
+		SELECT user.`coin` FROM `user` WHERE `user`.`user_id` = p_user_id INTO @current_coin;
+		SELECT (@current_coin - @lesson_price) INTO @new_coin;
+		IF(@new_coin >= 0) THEN
+		UPDATE `silly_english`.`user` SET `user`.`coin` = @new_coin WHERE `user`.`user_id` = p_user_id;
+		INSERT INTO `silly_english`.`lesson_storage` (`ls_id`,`user_id`) VALUES (p_lesson_id,p_user_id);
+		SELECT "200" AS response_code;
+		ELSE
+		SELECT "206" AS response_code;
+		END IF;
+	END IF;
+    END$$
+
+DELIMITER ;
+
+===========================================
+DELIMITER $$
+
+USE `silly_english`$$
+
+DROP PROCEDURE IF EXISTS `add_coin`$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_coin`(IN p_user_id VARCHAR(40),
+	IN p_coin_amount INT(11))
+BEGIN
+	SELECT user.`coin` FROM `user` WHERE `user`.`user_id` = p_user_id INTO @current_coin;
+	SELECT (@current_coin + p_coin_amount) INTO @new_coin;
+	IF(@new_coin >= 0) THEN
+	UPDATE `silly_english`.`user`
+	SET 
+	  `user`.`coin` = @new_coin
+	WHERE `user`.`user_id` = p_user_id;
+	
+	SELECT "200" AS response_code;
+	ELSE
+		SELECT "206" AS response_code;
+	END IF;
+END$$
+
+DELIMITER ;
