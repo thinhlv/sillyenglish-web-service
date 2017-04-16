@@ -8,6 +8,8 @@ class Arena extends CI_Controller{
     {
         $attacker_id = $this->input->post('attacker_id');
         $defender_id = $this->input->post('defender_id');
+        $bet_value = $this->input->post('bet_value');
+        $message = $this->input->post('message');
         
         if($attacker_id == '' || $defender_id == '')
         {
@@ -16,8 +18,8 @@ class Arena extends CI_Controller{
         else
         {
             $this->load->database();
-            $create_battle = "CALL create_battle(?, ?)";
-            $result = $this->db->query($create_battle, array('p_attacker_id' => $attacker_id, 'p_defender_id' => $defender_id));
+            $create_battle = "CALL create_battle(?, ?, ?, ?)";
+            $result = $this->db->query($create_battle, array('p_attacker_id' => $attacker_id, 'p_defender_id' => $defender_id, 'p_bet_value' => $bet_value, 'p_message' => $message));
             echo json_encode(array('data'=>$result->result_array()));
             $this->db->close();
         }   

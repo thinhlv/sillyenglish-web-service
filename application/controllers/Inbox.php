@@ -15,7 +15,7 @@ class Inbox extends CI_Controller{
         else
         {
             $this->load->database();
-            $inbox_query = "CALL get_mails(?)";
+            $inbox_query = "CALL get_inbox_items(?)";
             $result = $this->db->query($inbox_query, array('p_user_id' => $user_id));
             echo json_encode(array('data' => $result->result_array()));
             $this->db.close();
