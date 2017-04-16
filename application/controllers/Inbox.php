@@ -4,7 +4,7 @@ class Inbox extends CI_Controller{
         parent::__construct();
     }
     
-    public function get_inbox()
+        public function get_inbox()
     {
         $user_id = $this->input->post('user_id');
         
@@ -18,7 +18,7 @@ class Inbox extends CI_Controller{
             $inbox_query = "CALL get_inbox_items(?)";
             $result = $this->db->query($inbox_query, array('p_user_id' => $user_id));
             echo json_encode(array('data' => $result->result_array()));
-            $this->db.close();
+            $this->db->close();
         }
     }
     
@@ -41,7 +41,7 @@ class Inbox extends CI_Controller{
             $remove_query = "CALL remove_mail(?, ?)";
             $result = $this->db->query($remove_query, array('p_user_id' => $user_id, 'p_mail_id' => $mail_id));
             echo json_encode(array('data' => $result->result_array()));
-            $this->db.close();
+            $this->db->close();
         }
     }
 }
