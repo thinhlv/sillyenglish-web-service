@@ -30,4 +30,19 @@ class Training extends CI_Controller{
         }
         
     }
+    public function getlesson(){
+        $this->load->database();
+            $query = "CALL get_lesson_list()";
+            $result = $this->db->query($query);
+            echo json_encode(array('data'=>$result->result_array()));
+            $this->db->close();
+    }
+    public function getlessonunit(){
+        $ls_id = $this->input->post('ls_id');
+        $this->load->database();
+            $query = "CALL get_lesson_unit(?)";
+            $result = $this->db->query($query,array('p_lesson_id' => $ls_id));
+            echo json_encode(array('data'=>$result->result_array()));
+            $this->db->close();
+    }
 }
