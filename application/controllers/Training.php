@@ -16,19 +16,11 @@ class Training extends CI_Controller{
         
         $user_id = $this->input->post('user_id');
         $lesson_id = $this->input->post('ls_id');
-        if($user_id == '' || $lesson_id == '')
-        {
-            echo 'User ID and Lesson ID cant be null';
-        }
-        else
-        {
         $this->load->database();
             $query = "CALL buy_lesson(?,?)";
             $result = $this->db->query($query, array('p_user_id' => $user_id, 'p_lesson_id' => $lesson_id));
-            echo json_encode($result->first_row());
+            echo json_encode($result->result_array());
             $this->db->close();
-        }
-        
     }
     public function getlesson(){
         $this->load->database();
@@ -43,6 +35,15 @@ class Training extends CI_Controller{
             $query = "CALL get_lesson_unit(?)";
             $result = $this->db->query($query,array('p_lesson_id' => $ls_id));
             echo json_encode(array('data'=>$result->result_array()));
+            $this->db->close();
+    }
+    public function check_lesson_was_bought(){
+        $user_id = $this->input->post('user_id');
+        $lesson_id = $this->input->post('ls_id');
+        $this->load->database();
+            $query = "CALL check_lesson_was_bought(?,?)";
+            $result = $this->db->query($query,array('p_user_id' => $user_id,'p_ls_id' => $lesson_id));
+            echo json_encode($result->result_array());
             $this->db->close();
     }
 }
