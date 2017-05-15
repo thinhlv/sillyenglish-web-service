@@ -2,7 +2,8 @@
 SQLyog Ultimate v11.11 (64 bit)
 MySQL - 5.5.5-10.1.21-MariaDB : Database - silly_english
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -41,10 +42,15 @@ CREATE TABLE `attach_gifts` (
   `gift_type` int(11) DEFAULT NULL,
   `value` int(11) DEFAULT NULL,
   `quantity` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `detail` varchar(40) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `gift_type` (`gift_type`),
+  CONSTRAINT `attach_gifts_ibfk_1` FOREIGN KEY (`gift_type`) REFERENCES `gift_type` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*Data for the table `attach_gifts` */
+
+insert  into `attach_gifts`(`id`,`mail_id`,`gift_type`,`value`,`quantity`,`detail`) values (2,31,3,34,1,'battle chellenge'),(3,31,1,2300,1,'bonus coins');
 
 /*Table structure for table `battle_question` */
 
@@ -67,11 +73,11 @@ CREATE TABLE `battle_question` (
   CONSTRAINT `battle_question_ibfk_2` FOREIGN KEY (`battle_id`) REFERENCES `battles` (`battle_id`),
   CONSTRAINT `battle_question_ibfk_3` FOREIGN KEY (`attacker_answer`) REFERENCES `answer_key` (`answer_key_id`),
   CONSTRAINT `battle_question_ibfk_4` FOREIGN KEY (`defender_answer`) REFERENCES `answer_key` (`answer_key_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=186 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=193 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*Data for the table `battle_question` */
 
-insert  into `battle_question`(`id`,`question_id`,`battle_id`,`attacker_answer`,`defender_answer`,`attacker_answer_time`,`defender_answer_time`) values (181,1,27,2,5,'2017-05-09 19:59:22',NULL),(182,2,27,1,5,'2017-05-09 19:59:23',NULL),(183,6,27,1,5,'2017-05-09 19:59:24',NULL),(184,3,27,2,5,'2017-05-09 19:59:24',NULL),(185,5,27,1,5,'2017-05-09 19:59:25',NULL);
+insert  into `battle_question`(`id`,`question_id`,`battle_id`,`attacker_answer`,`defender_answer`,`attacker_answer_time`,`defender_answer_time`) values (181,1,27,2,5,'2017-05-09 19:59:22',NULL),(182,2,27,1,5,'2017-05-09 19:59:23',NULL),(183,6,27,1,5,'2017-05-09 19:59:24',NULL),(184,3,27,2,5,'2017-05-09 19:59:24',NULL),(185,5,27,1,5,'2017-05-09 19:59:25',NULL),(186,4,28,1,5,'2017-05-15 19:13:33',NULL),(187,5,28,1,5,'2017-05-15 19:13:34',NULL),(188,6,28,2,5,'2017-05-15 19:13:34',NULL),(189,2,28,2,5,'2017-05-15 19:13:34',NULL),(190,3,28,1,5,'2017-05-15 19:13:35',NULL);
 
 /*Table structure for table `battle_status` */
 
@@ -109,11 +115,11 @@ CREATE TABLE `battles` (
   KEY `defender_id` (`defender_id`),
   KEY `battle_status` (`battle_status`),
   CONSTRAINT `battles_ibfk_1` FOREIGN KEY (`battle_status`) REFERENCES `battle_status` (`status_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*Data for the table `battles` */
 
-insert  into `battles`(`battle_id`,`attacker_id`,`defender_id`,`battle_status`,`date_create`,`attacker_begin_time`,`defender_begin_time`,`attacker_end_time`,`defender_end_time`,`victory_id`,`bet_value`) values (27,'Y4iIFhYqnPVgvb38Xxjv0Fckv6w1','jJjig2TxgUQCX6kByk6u8iskXZV2',1,'2017-05-09 19:59:02','2017-05-09 19:59:02','2017-05-09 20:27:58','2017-05-09 20:28:01',NULL,NULL,2500);
+insert  into `battles`(`battle_id`,`attacker_id`,`defender_id`,`battle_status`,`date_create`,`attacker_begin_time`,`defender_begin_time`,`attacker_end_time`,`defender_end_time`,`victory_id`,`bet_value`) values (27,'Y4iIFhYqnPVgvb38Xxjv0Fckv6w1','jJjig2TxgUQCX6kByk6u8iskXZV2',1,'2017-05-09 19:59:02','2017-05-09 19:59:02','2017-05-09 20:27:58','2017-05-09 20:28:01',NULL,NULL,2500),(28,'jJjig2TxgUQCX6kByk6u8iskXZV2','GAMJNCtdsAVT2O7CRCFxN38QLnX2',1,'2017-05-15 19:13:32','2017-05-15 19:13:32',NULL,'2017-05-15 19:13:35',NULL,NULL,2000);
 
 /*Table structure for table `error_code` */
 
@@ -262,14 +268,15 @@ CREATE TABLE `mail` (
   `is_read` tinyint(1) DEFAULT '0',
   `sender_name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `is_rated` tinyint(1) DEFAULT '0',
+  `is_received` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `mail_type` (`mail_type`),
   CONSTRAINT `mail_ibfk_1` FOREIGN KEY (`mail_type`) REFERENCES `mail_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*Data for the table `mail` */
 
-insert  into `mail`(`id`,`receiver`,`sender`,`content`,`date_create`,`mail_type`,`value`,`is_read`,`sender_name`,`is_rated`) values (31,'jJjig2TxgUQCX6kByk6u8iskXZV2','Y4iIFhYqnPVgvb38Xxjv0Fckv6w1','ChÆ¡i game khÃ´ng mi','2017-05-09 19:59:02',2,27,0,'Oat Oal',0),(32,'jJjig2TxgUQCX6kByk6u8iskXZV2','awfawf','Chiáº¿n tháº¯ng rá»“i ahihi','2017-05-09 20:20:05',3,2500,0,'Oat Oal',0);
+insert  into `mail`(`id`,`receiver`,`sender`,`content`,`date_create`,`mail_type`,`value`,`is_read`,`sender_name`,`is_rated`,`is_received`) values (33,'GAMJNCtdsAVT2O7CRCFxN38QLnX2','jJjig2TxgUQCX6kByk6u8iskXZV2','haha','2017-05-15 19:13:32',2,28,0,'Thinh Nguyen Van',0,0);
 
 /*Table structure for table `mail_type` */
 
@@ -570,7 +577,7 @@ DELIMITER ;
 
 DELIMITER $$
 
-/*!50003 CREATE DEFINER=`oatoal`@`desktop-vrvot87` PROCEDURE `get_attatch_items`(
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_attatch_items`(
 	in p_user_id varchar(40),
 	IN p_mail_id int(11)
     )
@@ -642,6 +649,21 @@ BEGIN
     END */$$
 DELIMITER ;
 
+/* Procedure structure for procedure `get_lesson_unit` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `get_lesson_unit` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_lesson_unit`(
+		IN p_lesson_id INT(11)
+    )
+BEGIN
+	SELECT * FROM `silly_english`.`lesson_unit` where `lesson_unit`.ls_id = p_lesson_id;
+	       
+END */$$
+DELIMITER ;
+
 /* Procedure structure for procedure `buy_lesson` */
 
 /*!50003 DROP PROCEDURE IF EXISTS  `buy_lesson` */;
@@ -677,7 +699,7 @@ DELIMITER ;
 
 DELIMITER $$
 
-/*!50003 CREATE DEFINER=`oatoal`@`desktop-vrvot87` PROCEDURE `cancel_battle`(
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `cancel_battle`(
 	in p_user_id varchar(40),
 	in p_battle_id int(11)
     )
@@ -809,34 +831,6 @@ BEGIN
     END */$$
 DELIMITER ;
 
-/* Procedure structure for procedure `get_lesson_unit` */
-
-/*!50003 DROP PROCEDURE IF EXISTS  `get_lesson_unit` */;
-
-DELIMITER $$
-
-/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_lesson_unit`(
-		IN p_lesson_id INT(11)
-    )
-BEGIN
-	SELECT * FROM `silly_english`.`lesson_unit` where `lesson_unit`.ls_id = p_lesson_id;
-	       
-END */$$
-DELIMITER ;
-
-/* Procedure structure for procedure `get_mails` */
-
-/*!50003 DROP PROCEDURE IF EXISTS  `get_mails` */;
-
-DELIMITER $$
-
-/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `get_mails`(	
-	in p_user_id varchar(40)
-    )
-BEGIN
-	select * from mail where mail.`user_id` = p_user_id;
-    END */$$
-DELIMITER ;
 
 /* Procedure structure for procedure `get_popular_lesson` */
 
@@ -869,6 +863,35 @@ BEGIN
     END */$$
 DELIMITER ;
 
+/* Procedure structure for procedure `mask_as_opened_mail` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `mask_as_opened_mail` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `mask_as_opened_mail`(
+	IN p_user_id varchar(40),
+	IN p_mail_id varchar(40)
+    )
+BEGIN
+	Select count(*)
+	from `mail`
+	where mail.`id` = p_mail_id and mail.`receiver` = p_user_id
+	into @checker;
+	
+	if(@checker = 0)
+	then
+		select * from error_code where error_code.`code` = 208;
+	else
+		UPDATE mail
+		SET mail.`is_read` = 1
+		WHERE mail.`id` = p_mail_id AND mail.`receiver` = p_user_id;
+		
+		select * from error_code where `error_code`.`code` = 200;
+	end if;
+    END */$$
+DELIMITER ;
+
 /* Procedure structure for procedure `remove_mail` */
 
 /*!50003 DROP PROCEDURE IF EXISTS  `remove_mail` */;
@@ -888,7 +911,7 @@ BEGIN
 		WHERE `error_code`.`code` = 208;
 	else
 		DELETE FROM mail 
-		WHERE mail.`id` = p_mail_id AND mail.`user_id` = p_user_id;
+		WHERE mail.`id` = p_mail_id AND mail.`receiver` = p_user_id;
 		select *
 		from `error_code`
 		where `error_code`.`code` = 200;
@@ -897,6 +920,50 @@ BEGIN
     END */$$
 DELIMITER ;
 
+/* Procedure structure for procedure `rating_mail` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `rating_mail` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `rating_mail`(
+	in p_user_id varchar(40),
+	in p_mail_id int(11)
+    )
+BEGIN
+	select count(*)
+	from mail
+	where mail.`id` = p_mail_id and mail.`receiver` = p_user_id
+	into @checker;
+	
+	if(@checker = 0)
+	then
+		select * 
+		from `error_code`
+		where error_code.`code` = 208;
+	else
+		select mail.`is_rated`
+		from mail
+		where mail.`id` = p_mail_id 
+		into @is_rated;
+		
+		if(@is_rated = 0)
+		then
+			UPDATE mail
+			SET mail.`is_rated` = 1
+			WHERE mail.`id` = p_mail_id and mail.`receiver` = p_user_id;
+		else
+			UPDATE mail
+			SET mail.`is_rated` = 0
+			WHERE mail.`id` = p_mail_id AND mail.`receiver` = p_user_id;
+		end if;
+		
+		select * 
+		from error_code 
+		where `error_code`.`code` = 200;
+	end if;
+    END */$$
+DELIMITER ;
 /* Procedure structure for procedure `sent_mail` */
 
 /*!50003 DROP PROCEDURE IF EXISTS  `sent_mail` */;
@@ -931,7 +998,7 @@ BEGIN
 		p_value,
 		p_sender_name
 	);
-	
+
     END */$$
 DELIMITER ;
 
@@ -1130,51 +1197,6 @@ BEGIN
 		update `user`
 		set user.`level` = @current_level
 		where user.`user_id` = p_user_id;
-	end if;
-    END */$$
-DELIMITER ;
-
-/* Procedure structure for procedure `rating_mail` */
-
-/*!50003 DROP PROCEDURE IF EXISTS  `rating_mail` */;
-
-DELIMITER $$
-
-/*!50003 CREATE DEFINER=`oatoal`@`desktop-vrvot87` PROCEDURE `rating_mail`(
-	in p_user_id varchar(40),
-	in p_mail_id int(11)
-    )
-BEGIN
-	select count(*)
-	from mail
-	where mail.`id` = p_mail_id and mail.`receiver` = p_user_id
-	into @checker;
-	
-	if(@checker = 0)
-	then
-		select * 
-		from `error_code`
-		where error_code.`code` = 208;
-	else
-		select mail.`is_rated`
-		from mail
-		where mail.`id` = p_mail_id 
-		into @is_rated;
-		
-		if(@is_rated = 0)
-		then
-			UPDATE mail
-			SET mail.`is_rated` = 1
-			WHERE mail.`id` = p_mail_id and mail.`receiver` = p_user_id;
-		else
-			UPDATE mail
-			SET mail.`is_rated` = 0
-			WHERE mail.`id` = p_mail_id AND mail.`receiver` = p_user_id;
-		end if;
-		
-		select * 
-		from error_code 
-		where `error_code`.`code` = 200;
 	end if;
     END */$$
 DELIMITER ;

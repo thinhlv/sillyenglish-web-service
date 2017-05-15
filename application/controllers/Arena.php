@@ -4,6 +4,9 @@ class Arena extends CI_Controller{
         parent::__construct();
     }
     
+    /*
+     * Create battle
+     */
     public function create_battle()
     {
         $attacker_id = $this->input->post('attacker_id');
@@ -20,11 +23,29 @@ class Arena extends CI_Controller{
             $this->load->database();
             $create_battle = "CALL create_battle(?, ?, ?, ?)";
             $result = $this->db->query($create_battle, array('p_attacker_id' => $attacker_id, 'p_defender_id' => $defender_id, 'p_bet_value' => $bet_value, 'p_message' => $message));
-            echo json_encode(array('data'=>$result->result_array()));
+            echo json_encode($result->result_array());
             $this->db->close();
         }   
     }
     
+    /*
+     * Cancel battle
+     */
+    public function cancel_battle()
+    {
+        $defender_id = $this->input->post('user_id');
+        $battle_id = $this->input->post('battle_id');
+        
+        $this->load->database();
+        $cancel_query = "CALL cancel_battle(?, ?)";
+        $result = $this->db->query($cancel_query, array('p_user_id' => $defender_id, 'battle_id' => $battle_id));
+        echo json_encode($result->result_array());
+        $this->db->close();
+    }
+    
+    /*
+     * Chose answer
+     */
     public function chose_answer()
     {
         $user_id = $this->input->post('user_id');
@@ -53,11 +74,14 @@ class Arena extends CI_Controller{
                         'p_battle_id' => $battle_id, 
                         'p_question_id' => $question_id, 
                         'p_chose_answer' => $chose_answer));
-            echo json_encode($result->first_row());
+            echo json_encode($result->result_array());
             $this->db->close();
         }
     }
     
+    /*
+     * accept battle
+     */
     public function accept_battle()
     {
         $defender_id = $this->input->post('defender_id');
@@ -75,13 +99,14 @@ class Arena extends CI_Controller{
             $this->load->database();
             $accept_battle = "CALL accept_battle(?, ?)";
             $result = $this->db->query($accept_battle, array('p_user_id' => $defender_id, 'p_battle_id' => $battle_id));
-            echo json_encode(array('data' => $result->result_array()));
+            echo json_encode($result->result_array());
             $this->db->close();
         }
     }
     
-    
-    
+    /*
+     * user's battle chains
+     */
     public function get_battle_chains()
     {
         $user_id = $this->input->post('user_id');
@@ -113,11 +138,14 @@ class Arena extends CI_Controller{
                 }
             }
             
-            echo json_encode(array('data' => $chains));
+            echo json_encode($chains);
             $this->db->close();
         }
     }
     
+    /*
+     * Check battle over time
+     */
     private function check_battle_over_time($battle_id)
     {
         if($user_id == null 
@@ -134,6 +162,9 @@ class Arena extends CI_Controller{
         $this->db->close();
     }
     
+    /*
+     * Find enemy
+     */
     public function find_battle()
     {
         $user_id = $this->input->post('user_id');
@@ -146,11 +177,14 @@ class Arena extends CI_Controller{
             $this->load->database();
             $finder = "CALL find_battle(?)";
             $result = $this->db->query($finder, array('p_user_id' => $user_id));
-            echo json_encode($result->first_row());
+            echo json_encode($result->result_array());
             $this->db->close();
         }
     }
     
+    /*
+     * Get battle result
+     */
     public function get_battle_result()
     {
         $user_id = $this->input->post('user_id');
@@ -168,8 +202,22 @@ class Arena extends CI_Controller{
             $this->load->database();
             $battle_result = "CALL get_battle_result(?, ?)";
             $result = $this->db->query($battle_result, array('p_user_id' => $user_id, 'p_battle_id' => $battle_id));
-            echo json_encode(array('data' => $result->result_array()));
+            echo json_encode($result->result_array());
             $this->db->close();
         }
+    }
+    
+    /*
+     * Get duel enemy
+     */
+    public function get_enemy_duel()
+    {
+        $user_id = $this->input->post('user_id');
+        $battle_id = $this->input->post('battle_id');
+        
+        $this->load->database();
+        $enemy_duel = "CALL get_enemy_duel(?, ?)";
+        $result = $this->db->query($enemy_duel, array('p_user_id' => $user_id, 'p_battle_id' => $battle_id));
+        echo json_encode($result->result_array());
     }
 }
