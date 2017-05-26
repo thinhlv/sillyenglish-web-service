@@ -50,7 +50,7 @@ class Inbox extends CI_Controller{
     /*
      * Get attatch items
      */
-    public function get_attatch_item()
+    public function get_attach_item()
     {
         $user_id = $this->input->post('user_id');
         $mail_id = $this->input->post('mail_id');
@@ -73,6 +73,36 @@ class Inbox extends CI_Controller{
         $this->load->database();
         $attatch_query = "CALL mask_as_opened_mail(?, ?)";
         $result = $this->db->query($attatch_query, array('p_user_id' => $user_id, 'p_mail_id' => $mail_id));
+        echo json_encode($result->result_array());
+        $this->db->close();
+    }
+    
+    /*
+     * Claim rewards.
+     */
+    public function inbox_claim_rewards()
+    {
+        $user_id = $this->input->post('user_id');
+        $mail_id = $this->input->post('mail_id');
+        
+        $this->load->database();
+        $claim_request = "CALL inbox_claim_rewards(?, ?)";
+        $result = $this->db->query($claim_request, array('p_user_id' => $user_id, 'p_mail_id' => $mail_id));
+        echo json_encode($result->result_array());
+        $this->db->close();
+    }
+    
+    /**
+     * Accept friend request.
+     */
+    public function accept_friend_request()
+    {
+        $user_id = $this->input->post('user_id');
+        $mail_id = $this->input->post('mail_id');
+        
+        $this->load->database();
+        $claim_request = "CALL accept_friend_request(?, ?)";
+        $result = $this->db->query($claim_request, array('p_user_id' => $user_id, 'p_mail_id' => $mail_id));
         echo json_encode($result->result_array());
         $this->db->close();
     }
