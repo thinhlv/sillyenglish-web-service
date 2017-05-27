@@ -48,10 +48,11 @@ class Training extends CI_Controller{
     }
     public function update_lesson_progress(){
         $user_id = $this->input->post('user_id');
-        $lu_id = $this->input->post('lu_id');
+        $ls_id = $this->input->post('ls_id');
+        $ls_progress = $this->input->post('ls_progress');
         $this->load->database();
-            $query = "CALL update_lesson(?,?)";
-            $result = $this->db->query($query,array('p_user_id' => $user_id,'p_lu_id' => $lu_id));
+            $query = "CALL update_lesson_progress(?,?,?)";
+            $result = $this->db->query($query,array('p_user_id' => $user_id,'p_ls_id' => $ls_id,'p_ls_progress'=>$ls_progress));
             echo json_encode($result->result_array());
             $this->db->close();
     }
