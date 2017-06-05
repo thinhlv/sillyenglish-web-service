@@ -106,4 +106,16 @@ class Inbox extends CI_Controller{
         echo json_encode($result->result_array());
         $this->db->close();
     }
+    
+    public function delete_selected_mails()
+    {
+        $user_id = $this->input->post('user_id');
+        $delmails_id = $this->input->post('delmails_id');
+        
+        $this->load->database();
+        $delete_selected_mails = "CALL delete_selected_mails(?, ?)";
+        $result = $this->db->query($delete_selected_mails, array('p_user_id' => $user_id, 'p_inbox_id' => $delmails_id));
+        echo json_encode($result->result_array());
+        $this->db->close();
+    }
 }
