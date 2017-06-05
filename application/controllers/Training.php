@@ -4,14 +4,43 @@ class Training extends CI_Controller{
         parent::__construct();
     }
     
-    public function getpopolarlesson()
-    {
-            $this->load->database();
-            $query = "CALL get_popular_lesson()";
-            $result = $this->db->query($query);
-                echo json_encode(array('data'=>$result->result_array()));
-            $this->db->close();
+    public function get_popular_lesson() {
+        $this->load->database();
+        $limit_amount = $this->input->post('limit_amount');
+
+        $query = "CALL get_popular_lesson(?)";
+        $result = $this->db->query($query, array('p_limit_amount' => $limit_amount));
+        echo json_encode($result->result_array());
+        $this->db->close();
     }
+    public function get_daily_lesson() {
+        $this->load->database();
+
+        $query = "CALL get_daily_lesson()";
+        $result = $this->db->query($query);
+        echo json_encode($result->result_array());
+        $this->db->close();
+    }
+
+    public function get_rating_lesson() {
+        $this->load->database();
+        $limit_amount = $this->input->post('limit_amount');
+
+        $query = "CALL get_rating_lesson(?)";
+        $result = $this->db->query($query, array('p_limit_amount' => $limit_amount));
+        echo json_encode($result->result_array());
+        $this->db->close();
+    }
+    public function get_user_lesson() {
+        $this->load->database();
+        $user_id = $this->input->post('user_id');
+
+        $query = "CALL get_user_lesson(?)";
+        $result = $this->db->query($query, array('p_user_id' => $user_id));
+        echo json_encode($result->result_array());
+        $this->db->close();
+    }
+
     public function buylesson(){
         
         $user_id = $this->input->post('user_id');
@@ -65,4 +94,5 @@ class Training extends CI_Controller{
             echo json_encode($result->result_array());
             $this->db->close();
     }
+
 }

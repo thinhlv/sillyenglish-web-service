@@ -60,4 +60,23 @@ class Social extends CI_Controller {
         echo json_encode($result->result_array());
         $this->db->close();
     }
+
+    public function get_notify_detail() {
+        $this->load->database();
+
+        $query = "CALL get_notify_detail()";
+        $result = $this->db->query($query);
+        echo json_encode($result->result_array());
+        $this->db->close();
+    }
+
+    public function get_notify_comments() {
+        $this->load->database();
+        $notify_id = $this->input->post('notify_id');
+
+        $query = "CALL get_notify_comments(?)";
+        $result = $this->db->query($query, array('p_notify_id' => $notify_id));
+        echo json_encode($result->result_array());
+        $this->db->close();
+    }
 }
