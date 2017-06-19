@@ -24,6 +24,7 @@ class ReadDir extends CI_Controller{
              `ls_price`,
              `ls_max_hear_times`,
              `ls_url`)"."<br />");
+        print($s);
         print("VALUES ('".$p_lesson_title."',".$p_lesson_price.",".$p_lesson_max_hear_times.",'".$folder."');");
                     foreach (glob($folder."\*.mp3") as $file)
                     {
@@ -39,7 +40,7 @@ class ReadDir extends CI_Controller{
     }
     public function addlessonunit(){
         $sequence = 0;
-        $ls_id = 4;
+        $ls_id = 6;
     foreach (glob("Resources\*") as $folder) {
         //print("VALUES ('".$p_lesson_title."',".$p_lesson_price.",".$p_lesson_max_hear_times.",'".$folder."');");
         $p = $this->processString("insert into `silly_english`.`lesson_unit`
@@ -54,7 +55,7 @@ values ");
                     foreach (glob($folder."\*.mp3") as $file)
                     {
                         //print($file."<br />");
-                        $replace_space = str_replace(" ","%",$file);
+                        $replace_space = str_replace(" ","%20",$file);
                         $s = "//";
                         $replace_divide = str_replace('\\','/', $replace_space);
                         $a = "";
