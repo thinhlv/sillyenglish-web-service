@@ -12,4 +12,14 @@ class Friend extends CI_Controller {
         echo json_encode($result->result_array());
         $this->db->close();
     }
+    public function unfriend(){
+        $this->load->database();
+        $user_id = $this->input->post('user_id');
+        $friend_id = $this->input->post('friend_id');
+        
+        $query = "CALL un_friend(?,?)";
+        $result = $this->db->query($query,array('p_user_id'=>$user_id,'p_friend_id'=>$friend_id));
+        echo json_encode($result->result_array());
+        $this->db->close();
+    }
 }
