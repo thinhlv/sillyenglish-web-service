@@ -225,7 +225,7 @@ class Arena extends CI_Controller{
     {   
         $user_id = $this->input->post('user_id');   
         $this->load->database();
-        $enemy_duel = "CALL get_battle_history(?, ?)";
+        $enemy_duel = "CALL get_battle_history(?)";
         $result = $this->db->query($enemy_duel, array('p_user_id' => $user_id));
         echo json_encode($result->result_array());
     }
