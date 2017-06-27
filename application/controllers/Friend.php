@@ -22,4 +22,12 @@ class Friend extends CI_Controller {
         echo json_encode($result->result_array());
         $this->db->close();
     }
+    public function get_list_friends(){
+        $this->load->database();
+        $user_id = $this->input->post('user_id');
+        $query = "CALL get_list_friend(?)";
+        $result = $this->db->query($query,array('p_user_id'=>$user_id));
+        echo json_encode($result->result_array());
+        $this->db->close();
+    }
 }
