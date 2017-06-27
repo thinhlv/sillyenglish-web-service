@@ -94,5 +94,12 @@ class Training extends CI_Controller{
             echo json_encode($result->result_array());
             $this->db->close();
     }
-
+    public function get_first_lesson_unit() {
+        $this->load->database();
+        $ls_id = $this->input->post('ls_id');
+        $query = "CALL get_first_lesson_unit(?)";
+        $result = $this->db->query($query, array('p_ls_id' => $ls_id));
+        echo json_encode($result->result_array());
+        $this->db->close();
+    }
 }
