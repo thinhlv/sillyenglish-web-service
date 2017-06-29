@@ -19,4 +19,13 @@ class User extends CI_Controller{
             echo json_encode($result->result_array());
             $this->db->close();
     }
+    public function get_user_ranking(){
+        $user_id = $this->input->post('user_id');
+        $this->load->database();
+            $query = "CALL get_user_ranking(?)";
+            $result = $this->db->query($query, array(
+                'p_user_id'=>$user_id));
+            echo json_encode($result->result_array());
+            $this->db->close();
+    }
 }
