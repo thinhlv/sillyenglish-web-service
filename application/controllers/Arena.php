@@ -167,19 +167,16 @@ class Arena extends CI_Controller{
      */
     public function find_battle()
     {
+		//get parameter
         $user_id = $this->input->post('user_id');
-        if($user_id == null || $user_id == "")
-        {
-            echo "user id can not be empty!";
-        }
-        else
-        {
-            $this->load->database();
-            $finder = "CALL find_battle(?)";
-            $result = $this->db->query($finder, array('p_user_id' => $user_id));
-            echo json_encode($result->result_array());
-            $this->db->close();
-        }
+		$current_enemy_id = $this->input->post('current_enemy_id');
+		
+		//Query enemy to start battle.
+        $this->load->database();
+		$finder = "CALL find_battle(?, ?)";
+		$result = $this->db->query($finder, array('p_user_id' => $user_id, 'p_current_enemy' => $current_enemy_id));
+		echo json_encode($result->result_array());
+		$this->db->close();
     }
     
     /*
@@ -225,7 +222,7 @@ class Arena extends CI_Controller{
     {   
         $user_id = $this->input->post('user_id');   
         $this->load->database();
-        $enemy_duel = "CALL get_battle_history(?, ?)";
+        $enemy_duel = "CALL get_battle_history(?)";
         $result = $this->db->query($enemy_duel, array('p_user_id' => $user_id));
         echo json_encode($result->result_array());
     }
