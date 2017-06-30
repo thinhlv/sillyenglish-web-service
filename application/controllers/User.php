@@ -20,9 +20,17 @@ class User extends CI_Controller{
             $this->db->close();
     }
 	
-	/*
-		Get all application parameters.
-	*/
+	/*Get user ranking*/
+	public function get_user_ranking(){
+		$user_id = $this->input->post('user_id');
+        $this->load->database();
+		$query = "CALL get_user_ranking(?)";
+		$result = $this->db->query($query, array('p_user_id'=>$user_id));
+		echo json_encode($result->result_array());
+		$this->db->close();
+    }
+	
+    /*Get all application parameters.*/
 	public function get_app_params()
     {
         $user_id = $this->input->post('user_id');

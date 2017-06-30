@@ -102,4 +102,13 @@ class Training extends CI_Controller{
         echo json_encode($result->result_array());
         $this->db->close();
     }
+    public function rating_lesson(){
+        $this->load->database();
+        $ls_id = $this->input->post('ls_id');
+        $rating_point = $this->input->post('rating_point');
+        $query = "CALL rating_lesson(?,?)";
+        $result = $this->db->query($query, array('p_ls_id' => $ls_id, 'p_rating_point'=>$rating_point));
+        echo json_encode($result->result_array());
+        $this->db->close();
+    }
 }
