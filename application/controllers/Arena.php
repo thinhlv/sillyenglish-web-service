@@ -226,4 +226,18 @@ class Arena extends CI_Controller{
         $result = $this->db->query($enemy_duel, array('p_user_id' => $user_id));
         echo json_encode($result->result_array());
     }
+    
+    /*
+     * Gets enemy information from enemy's identifier.
+     */
+    public function find_enemy_with_identifier()
+    {
+        $user_id = $this->input->post('user_id');  
+        $enemy_id = $this->input->post('enemy_id');
+        $this->load->database();
+        $result_enemy = "CALL find_enemy_with_identifier(?, ?)";
+        
+        $result = $this->db->query($result_enemy, array('p_user_id' => $user_id, 'p_enemy_id' => $enemy_id));
+        echo json_encode($result->result_array());
+    }
 }
