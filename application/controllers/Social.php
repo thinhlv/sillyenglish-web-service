@@ -79,5 +79,4 @@ class Social extends CI_Controller {
         echo json_encode($result->result_array());
         $this->db->close();
     }
-    
 }

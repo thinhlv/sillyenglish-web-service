@@ -111,4 +111,12 @@ class Training extends CI_Controller{
         echo json_encode($result->result_array());
         $this->db->close();
     }
+    public function get_all_source_unit() {
+        $this->load->database();
+        $query = "CALL get_all_source_unit()";
+        $result = $this->db->query($query);
+        echo json_encode($result->result_array());
+        $this->db->close();
+    }
+
 }
