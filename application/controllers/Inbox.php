@@ -118,4 +118,15 @@ class Inbox extends CI_Controller{
         echo json_encode($result->result_array());
         $this->db->close();
     }
+    
+    public function new_mail_checking()
+    {
+        $user_id = $this->input->post('user_id');
+        
+        $this->load->database();
+        $new_mail_checker = "CALL new_mail_checking(?)";
+        $result = $this->db->query($new_mail_checker, array('p_user_id' => $user_id));
+        echo json_encode($result->result_array());
+        $this->db->close();
+    }
 }
