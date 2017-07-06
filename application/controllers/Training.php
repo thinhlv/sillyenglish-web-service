@@ -125,4 +125,13 @@ class Training extends CI_Controller{
         echo json_encode($result->result_array());
         $this->db->close();
     }
+    public function get_lesson_by_category() {
+        $this->load->database();
+        $source_unit = $this->input->post('source_unit');
+        $query = "CALL get_lesson_by_category(?)";
+        $result = $this->db->query($query, array('p_source_unit' => $source_unit));
+        echo json_encode($result->result_array());
+        $this->db->close();
+    }
+
 }
