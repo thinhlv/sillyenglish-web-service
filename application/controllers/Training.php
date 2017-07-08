@@ -133,5 +133,11 @@ class Training extends CI_Controller{
         echo json_encode($result->result_array());
         $this->db->close();
     }
-
+    public function get_lis_channel(){
+        $this->load->database();
+        $query = "CALL get_list_channel()";
+        $result = $this->db->query($query);
+        echo json_encode($result->result_array());
+        $this->db->close();
+    }
 }
