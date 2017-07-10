@@ -133,11 +133,38 @@ class Training extends CI_Controller{
         echo json_encode($result->result_array());
         $this->db->close();
     }
-    public function get_lis_channel(){
+    public function get_list_channel(){
         $this->load->database();
         $query = "CALL get_list_channel()";
         $result = $this->db->query($query);
         echo json_encode($result->result_array());
+        $this->db->close();
+    }
+    public function update_progress_chart(){
+        $this->load->database();
+        
+        $user_id = $this->input->post('p_user_id');
+        
+        $query = "CALL update_progress_chart(?)";
+        
+        
+        $result = $this->db->query($query, array('p_user_id' => $user_id));
+        
+        echo json_encode($result->result_array());
+        
+        $this->db->close();
+    }
+    public function get_chart_progress(){
+        $this->load->database();
+        
+        $user_id = $this->input->post('p_user_id');
+        
+        $query = "CALL get_chart_progress(?)";
+        
+        $result = $this->db->query($query, array('p_user_id' => $user_id));
+        
+        echo json_encode($result->result_array());
+        
         $this->db->close();
     }
 }
