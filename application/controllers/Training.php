@@ -143,7 +143,7 @@ class Training extends CI_Controller{
     public function update_progress_chart(){
         $this->load->database();
         
-        $user_id = $this->input->post('p_user_id');
+        $user_id = $this->input->post('user_id');
         
         $query = "CALL update_progress_chart(?)";
         
@@ -157,7 +157,7 @@ class Training extends CI_Controller{
     public function get_chart_progress(){
         $this->load->database();
         
-        $user_id = $this->input->post('p_user_id');
+        $user_id = $this->input->post('user_id');
         //
         $query = "CALL get_chart_progress(?)";
         
