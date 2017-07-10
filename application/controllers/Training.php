@@ -158,7 +158,7 @@ class Training extends CI_Controller{
         $this->load->database();
         
         $user_id = $this->input->post('p_user_id');
-        
+        //
         $query = "CALL get_chart_progress(?)";
         
         $result = $this->db->query($query, array('p_user_id' => $user_id));
