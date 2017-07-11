@@ -180,4 +180,17 @@ class Training extends CI_Controller{
         
         $this->db->close();
     }
+    public function search_lesson(){
+        $this->load->database();
+        
+        $search_key = $this->input->post('search_key');
+        //
+        $query = "CALL search_lesson(?)";
+        
+        $result = $this->db->query($query, array('p_search_key' => $search_key));
+        
+        echo json_encode($result->result_array());
+        
+        $this->db->close();
+    }
 }
